@@ -128,6 +128,7 @@ void heapSort(int *arr, int size) {
     }
 }
 
+//is max heap
 bool isHeap(int arr[], int i, int size) {
     if(!i)
         i++;

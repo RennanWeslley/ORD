@@ -8,6 +8,11 @@
 void doSort(int *, int);
 
 int main(int argc, char *argv[]) {
+    if(argc == 1) {
+        std::cout << "\nArgumentos inválidos. Digite:\n\nmake args=\"nome-do-arquivo\"\nou\nmake args=\"1 2 3 4 ... n\"\n" << std::endl;
+        return -1;
+    }
+    
     std::stringstream *d;
     
     if(argc > 2) {
