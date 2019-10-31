@@ -4,8 +4,6 @@
 #include <iostream>
 #include <sstream>
 
-#define HEAPCOMP 101
-
 class Heap {
     private:
         int *data;
