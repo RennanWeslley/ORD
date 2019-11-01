@@ -95,9 +95,7 @@ void max_heapify(Heap *h, int i) {
         u = r;
     
     if(u != i) {
-        int aux = h->getData()[i-1];
-        h->getData()[i-1] = h->getData()[u-1];
-        h->getData()[u-1] = aux;
+        std::swap(h->getData()[i-1], h->getData()[u-1]);
         
         max_heapify(h, u);
     }
@@ -118,9 +116,7 @@ void heapSort(int *arr, int size) {
     Heap h = build_max_heap(arr, size);
     
     for(int i = size-1, aux; i > 0; i--) {
-        aux = arr[0];
-        arr[0] = arr[i];
-        arr[i] = aux;
+        std::swap(arr[0], arr[i]);
         
         h.sizeDec();
         
