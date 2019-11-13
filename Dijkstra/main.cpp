@@ -1,109 +1,117 @@
 #include "heap.h"
+#include "list.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h> 
+#include <stdlib.h>
+#include <ctype.h>
 
 #define HEAPCOMP 256000
 
-void doSort(int *, int);
+void load_adjacency_list(List *, int, FILE *);
 
 int main(int argc, char *argv[]) {
     std::cout << std::endl;
     
     if(argc == 1) {
-        std::cout << "\nArgumentos inválidos. Digite:\n\nmake args=\"nome-do-arquivo\"\nou\nmake args=\"1 2 3 4 ... n\"\n" << std::endl;
+        std::cout << "\nInvalid argument. Type:\n\nmake file-number\n" << std::endl;
         return -1;
     }
     
-    std::stringstream *d;
-    
-    if(argc > 2) {
-        int arr[argc-1];
-        
-        for(int i = 1; i < argc; i++) {
-            d = new std::stringstream(argv[i]);
-            *d >> arr[i-1];
-        }
-        
-        //doSort(arr, (argc-1));
-    
-        Heap h = build_min_heap(arr, (argc-1));
-        
-        h.decrease_key(8, 5);
-        
-        return 1;
-    }
-    
-    /*
-    char arq[] = "files/";
+    /* READING FILE */
+    char arq[] = "files/dij";
     strcat(arq, argv[1]);
-    
+    strcat(arq, ".txt");
+
     FILE *f = fopen(arq, "r");
     
     if(!f) {
-        std::cerr << "Arquivo não pôde ser aberto" << std::endl;
+        std::cerr << "Open file error" << std::endl;
         return 0;
     }
     
     char s[1024];
-    int arr[HEAPCOMP];
-    int size = 0;
+    int size;
     
-    while(true) {
-        fgets(s, 1024, f);
+    /* READING SIZE */
+    fgets(s, 1024, f);
     
-        if(!s) {
-            std::cerr << "Linha não pôde ser lida" << std::endl;
-            return 0;
-        }
-    
-        d = new std::stringstream(s);
-        *d >> arr[size++];
-        
-        if(feof(f))
-            break;
-    }
-    
-    fclose(f);
-    
-    doSort(arr, size);
-    
-    char sorted[] = "files/sorted-";
-    strcat(sorted, argv[1]);
-    
-    f = fopen(sorted, "w");
-    
-    if(!f) {
-        std::cerr << "Arquivo não pôde ser criado" << std::endl;
+    if(!s) {
+        std::cerr << "Line cannot be read" << std::endl;
         return 0;
     }
+
+    std::stringstream d(s);
+    d >> size;
+    /* END OF READING SIZE */
     
-    char aux[50];
+    List list[size];
     
-    for(int i = 0; i < size; i++) {
-        sprintf(aux, "%d\n" , arr[i]);
-        
-        fputs(aux, f);
-    }
+    load_adjacency_list(list, size, f);
     
     fclose(f);
+    /*END OF READING FILE */
     
-    std::cout << "Arquivo ordenado gerado." << std::endl;   
-    */
+    for(int i = 0; i < size; i++)
+        std::cout << "[" << i << "] -> " << list[i].toString() << std::endl;
+    
+    bool flag = false;
+    
+    for(int i = 0; i < size; i++)
+        if(list[i].getSize() != (size - 1)) {
+            flag = true;
+            break;
+        }
+    
+    if(!flag)
+        std::cout << "Tudo certo\n" << std::endl;
+    else
+        std::cout << "Algo errado\n" << std::endl;
     
     return 0;
 }
 
-void doSort(int *arr, int size) {
-    std::cout << "\nArray...: ";
-    print(arr, size);
-        
-    std::cout << "\nHeaping...\n\nMin Heap: ";
-        
-    heapSort(arr, size);
-    
-    std::cout << "\nHeapSorting...\n\nSorted..: ";
-    print(arr, size);
+void load_adjacency_list(List *list, int size, FILE *f) {
+    std::stringstream *d;
+    char aux[1024];
+    data_t data;
 
-    std::cout << std::endl;
+    for(int i = 0; i < size; i++){
+        for(int j = 0, pos = i+1; pos < size; pos++, j++) {
+            for(int k = 0; ; k++) {
+                aux[k] = getc(f);
+                
+                if(aux[k] == ' ' || aux[k] == '\n') {
+                    k--;
+                    continue;
+                }
+                
+                if(!isdigit(aux[k])) {
+                    aux[k] = '\0';
+                    break;
+                }
+                
+                if(feof(f)) {
+                    d = new std::stringstream(aux);
+                    *d >> data.value;
+                    
+                    data.pos = pos;
+                    list[i].insert(data);
+                    
+                    data.pos = i;
+                    list[pos].insert(data);
+                    
+                    return;
+                }
+            }
+                
+            d = new std::stringstream(aux);
+            *d >> data.value;
+
+            data.pos = pos;
+            list[i].insert(data);
+
+            data.pos = i;
+            list[pos].insert(data);
+        }
+    }
 }

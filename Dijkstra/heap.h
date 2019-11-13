@@ -62,6 +62,11 @@ class Heap {
             }
         }
         
+        void build_min_heap() {
+            for(int i = size/2; i > 0; i--)
+                this->min_heapify(i);
+        }
+        
         void sizeDec() {
             size--;
         }
@@ -88,14 +93,10 @@ class Heap {
             if(data[i] < key)
                 return;
             
-            std::cout << this->toString() << "\n" << std::endl;
-            
             data[i] = key;
             
             for(; i && (data[this->getParent(i)] > data[i]); i = this->getParent(i))
                 std::swap(data[this->getParent(i)], data[i]);
-            
-            std::cout << this->toString() << "\n" << std::endl;
         }
         
         std::string toString() {
@@ -133,19 +134,10 @@ void print(int *arr, int size) {
             std::cout << arr[i] << "}" << std::endl;
 }
 
-Heap build_min_heap(int *arr, int size) {
-    Heap h(arr, size);
-    
-    for(int i = size/2; i > 0; i--)
-        h.min_heapify(i);
-    
-    //print(h.getData(), size);
-    
-    return h;
-}
-
 void heapSort(int *arr, int size) {
-    Heap h = build_min_heap(arr, size);
+    Heap h(arr, size); 
+    
+    h.build_min_heap();
     
     for(int i = size-1, aux; i > 0; i--) {
         std::swap(arr[0], arr[i]);
