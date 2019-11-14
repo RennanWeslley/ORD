@@ -5,10 +5,10 @@
 
 class NodeS {
     public:
-        Vex data;
+        vex_t data;
         NodeS *next;
         
-        Vex getData() {
+        vex_t getData() {
             return data;
         }
         
@@ -36,7 +36,7 @@ class Stack {
             return !this->head;
         }
         
-        void push(Vex data) {
+        void push(vex_t data) {
             NodeS *node = new NodeS();
             
             node->data = data;
@@ -50,10 +50,10 @@ class Stack {
             return;
         }
         
-        Vex pop() {
+        vex_t pop() {
             NodeS *p = this->head;
             
-            Vex d = p->data;
+            vex_t d = p->data;
             
             this->head = p->next;
             
@@ -69,22 +69,22 @@ class Stack {
             if(this->empty())
                 return "Empty\n";
             
-            std::stringstream u;
+            std::stringstream v;
             std::stringstream w;
             std::string show = "Stack: {";
             
             NodeS *p = this->head;
             
             for(; p; p = p->next) {
-                u << p->data.getU();
-                w << p->data.getW();
+                v << p->data.v;
+                w << p->data.w;
                 
                 if(!p->next)
-                    show += "(" + u.str() + ", " + w.str() + ")" + "}";
+                    show += "(" + v.str() + ", " + w.str() + ")" + "}";
                 else
-                    show += "(" + u.str() + ", " + w.str() + ")" + ", ";
+                    show += "(" + v.str() + ", " + w.str() + ")" + ", ";
                 
-                u.str("");
+                v.str("");
                 w.str("");
             }
                 
@@ -92,4 +92,4 @@ class Stack {
         }
 };
 
-#endif // STACK_H
+#endif //STACK_H

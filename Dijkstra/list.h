@@ -2,20 +2,19 @@
 #define LIST_H
 
 #include <iostream>
-#include <cstdlib>
 #include <sstream>
 
 typedef struct {
     int v;
     int w;
-} data_t;
+} vex_t;
 
 class Node {
     public:
-        data_t data;
+        vex_t data;
         Node *next;
         
-        data_t getData() {
+        vex_t getData() {
             return data;
         }
         
@@ -43,7 +42,7 @@ class List {
             return !this->head;
         }
         
-        data_t visit(int pos) {
+        vex_t visit(int pos) {
             Node *p = this->head;
             
             for(int i = 0; i < pos; p = p->next, i++);
@@ -51,7 +50,7 @@ class List {
             return p->data;
         }
         
-        int insertHead(data_t data) {
+        int insertHead(vex_t data) {
             Node *node = new Node();
             
             node->data = data;
@@ -65,7 +64,7 @@ class List {
             return 1;
         }
         
-        int insert(data_t data) {
+        int insert(vex_t data) {
             if(this->empty())
                 return insertHead(data);
             
