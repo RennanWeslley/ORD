@@ -3,23 +3,9 @@
 
 #include "heap.h"
 
-class NodeS {
-    public:
-        vex_t data;
-        NodeS *next;
-        
-        vex_t getData() {
-            return data;
-        }
-        
-        NodeS *getNext() {
-            return next;
-        }
-};
-
 class Stack {
     private:
-        NodeS *head;
+        Node *head;
         int size;
         
     public:
@@ -37,7 +23,7 @@ class Stack {
         }
         
         void push(vex_t data) {
-            NodeS *node = new NodeS();
+            Node *node = new Node();
             
             node->data = data;
             node->next = this->head;
@@ -51,7 +37,7 @@ class Stack {
         }
         
         vex_t pop() {
-            NodeS *p = this->head;
+            Node *p = this->head;
             
             vex_t d = p->data;
             
@@ -73,7 +59,7 @@ class Stack {
             std::stringstream w;
             std::string show = "Stack: {";
             
-            NodeS *p = this->head;
+            Node *p = this->head;
             
             for(; p; p = p->next) {
                 v << p->data.v;

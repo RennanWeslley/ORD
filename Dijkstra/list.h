@@ -46,10 +46,6 @@ class List {
         Node *getHead() {
             return head;
         }
-        
-        Node *getBack() {
-            return back;
-        }
 
         int getSize() {
             return this->size;
