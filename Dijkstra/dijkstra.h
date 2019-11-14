@@ -90,7 +90,7 @@ void dijkstra(List *list, int size, int *d, int *p) {
     
     h.build_min_heap();
     
-    while(!(h.isEmpty())) {
+    while(!h.isEmpty()) {
         node = h.extract_min();
         
         for(int i = 0; i < size-1; i++)
