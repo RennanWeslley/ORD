@@ -18,6 +18,14 @@ class Node {
             return data;
         }
         
+        int getV() {
+            return data.v;
+        }
+        
+        int getW() {
+            return data.w;
+        }
+        
         Node *getNext() {
             return next;
         }
@@ -33,6 +41,10 @@ class List {
             this->head = NULL;
             this->size = 0;
         }
+        
+        Node *getHead() {
+            return head;
+        }
 
         int getSize() {
             return this->size;
@@ -40,14 +52,6 @@ class List {
 
         bool empty() {
             return !this->head;
-        }
-        
-        vex_t visit(int pos) {
-            Node *p = this->head;
-            
-            for(int i = 0; i < pos; p = p->next, i++);
-                
-            return p->data;
         }
         
         int insertHead(vex_t data) {

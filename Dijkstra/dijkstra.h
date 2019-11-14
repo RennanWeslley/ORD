@@ -94,8 +94,8 @@ void dijkstra(List *list, int size, int *d, int *p) {
         node = h.extract_min();
         
         for(int i = 0; i < size-1; i++) {
-            a = list[node.v].visit(i);
-            relax(node.v, a.v, a.w, d, p);
+            for(Node *n = list[node.v].getHead(); n; n = n->next)
+                relax(node.v, n->getV(), n->getW(), d, p);
         }
     }
 }
