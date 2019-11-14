@@ -1,5 +1,4 @@
 #include "dijkstra.h"
-#include "stack.h"
 #include <string.h>
 #include <ctype.h>
 
