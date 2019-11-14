@@ -1,16 +1,40 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#include <iostream>
-#include <sstream>
+#include "list.h"
+
+class Vex {
+    public:
+        int u;
+        int w;
+        
+        Vex() {}
+        
+        Vex(int u, int w) {
+            this->u = u;
+            this->w = w;
+        }
+            
+        void setW(int w) {
+            this->w = w;
+        }
+        
+        int getU() {
+            return u;
+        }
+        
+        int getW() {
+            return w;
+        }
+};
 
 class Heap {
     private:
-        int *data;
+        Vex *data;
         int size;
 
     public:
-        Heap(int *data, int size) {
+        Heap(Vex *data, int size) {
             this->data = data;
             this->size = size;
         }
@@ -35,7 +59,7 @@ class Heap {
             return size;
         }
         
-        int *getData() {
+        Vex *getData() {
             return data;
         }
         
@@ -47,12 +71,12 @@ class Heap {
                 r = this->getRight(i),
                 u;
             
-            if(l <= this->getSize() && this->getData()[l-1] < this->getData()[i-1])
+            if(l <= this->getSize() && this->getData()[l-1].getW() < this->getData()[i-1].getW())
                 u = l;
             else
                 u = i;
             
-            if(r <= this->getSize() && this->getData()[r-1] < this->getData()[u-1])
+            if(r <= this->getSize() && this->getData()[r-1].getW() < this->getData()[u-1].getW())
                 u = r;
             
             if(u != i) {
@@ -71,12 +95,12 @@ class Heap {
             size--;
         }
         
-        int heap_minimum() {
+        Vex heap_minimum() {
             return data[0];
         }
         
-        int extract_min() {
-            int aux = data[0];
+        Vex extract_min() {
+            Vex aux = data[0];
         
             data[0] = data[size-1];
             
@@ -90,12 +114,12 @@ class Heap {
         void decrease_key(int i, int key) {
             i--;
             
-            if(data[i] < key)
+            if(data[i].getW() < key)
                 return;
             
-            data[i] = key;
+            data[i].setW(key);
             
-            for(; i && (data[this->getParent(i)] > data[i]); i = this->getParent(i))
+            for(; i && (data[this->getParent(i)].getW() > data[i].getW()); i = this->getParent(i))
                 std::swap(data[this->getParent(i)], data[i]);
         }
         
@@ -103,20 +127,22 @@ class Heap {
             if(this->isEmpty())
                 return "Heap is empty\n";
             
-            std::stringstream d, s;
+            std::stringstream u, w, s;
             std::string show = "Heap.: {";
             
             for(int i = 0; i < size; i++) {
-                d << data[i];
+                u << data[i].getU();
+                w << data[i].getW();
                 
                 if((i+1) == size) {
-                    show += d.str() + "}";
+                    show += "(" + u.str() + ", " + w.str() + ")" + "}";
                     break;
                 }
                 else
-                    show += d.str() + ", ";
+                    show += "(" + u.str() + ", " + w.str() + ")" + ", ";
                 
-                d.str("");
+                u.str("");
+                w.str("");
             }
             
             s << size;
@@ -134,22 +160,8 @@ void print(int *arr, int size) {
             std::cout << arr[i] << "}" << std::endl;
 }
 
-void heapSort(int *arr, int size) {
-    Heap h(arr, size); 
-    
-    h.build_min_heap();
-    
-    for(int i = size-1, aux; i > 0; i--) {
-        std::swap(arr[0], arr[i]);
-        
-        h.sizeDec();
-        
-        h.min_heapify(1);
-    }
-}
-
 //is min heap
-bool isHeap(int arr[], int i, int size) {
+bool isHeap(Vex arr[], int i, int size) {
     if(!i)
         i++;
     
@@ -159,7 +171,7 @@ bool isHeap(int arr[], int i, int size) {
     if(left >= size || right >= size)
         return true;
     
-    if(arr[i-1] > arr[left-1] || arr[i-1] > arr[right-1])
+    if(arr[i-1].getW() > arr[left-1].getW() || arr[i-1].getW() > arr[right-1].getW())
         return false;
     
     if(!isHeap(arr, left, size) || !isHeap(arr, right, size))

@@ -1,14 +1,13 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include<iostream>
-#include<cstdlib>
-
-using namespace std;
+#include <iostream>
+#include <cstdlib>
+#include <sstream>
 
 typedef struct {
-    int pos;
-    int value;
+    int v;
+    int w;
 } data_t;
 
 class Node {
@@ -45,12 +44,9 @@ class List {
         }
         
         data_t visit(int pos) {
-            if((pos-1) > this->size)
-                pos = this->size;
-            
             Node *p = this->head;
             
-            for(int i = 1; i < pos; p = p->next, i++);
+            for(int i = 0; i < pos; p = p->next, i++);
                 
             return p->data;
         }
@@ -64,7 +60,7 @@ class List {
             
             this->size++;
             
-            //std::cout << "Inserted: (" << data.pos << ", " << data.value << ")" << std::endl;
+            //std::cout << "Inserted: (" << data.v << ", " << data.w << ")" << std::endl;
             
             return 1;
         }
@@ -84,7 +80,7 @@ class List {
             
             this->size++;
             
-            //std::cout << "Inserted: (" << data.pos << ", " << data.value << ")" << std::endl;
+            //std::cout << "Inserted: (" << data.v << ", " << data.w << ")" << std::endl;
             
             return 1;
         }
@@ -93,23 +89,23 @@ class List {
             if(this->empty())
                 return "Empty\n";
             
-            stringstream pos;
-            stringstream value;
-            string show = "List: {";
+            std::stringstream v;
+            std::stringstream w;
+            std::string show = "List: {";
             
             Node *p = this->head;
             
             for(; p; p = p->next) {
-                pos << p->data.pos;
-                value << p->data.value;
+                v << p->data.v;
+                w << p->data.w;
                 
                 if(!p->next)
-                    show += "(" + pos.str() + ", " + value.str() + ")" + "}";
+                    show += "(" + v.str() + ", " + w.str() + ")" + "}";
                 else
-                    show += "(" + pos.str() + ", " + value.str() + ")" + ", ";
+                    show += "(" + v.str() + ", " + w.str() + ")" + ", ";
                 
-                pos.str("");
-                value.str("");
+                v.str("");
+                w.str("");
             }
                 
             return show + "\n";    

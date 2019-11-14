@@ -1,9 +1,10 @@
 all:
 	g++ main.cpp -o app
+	./app
 
-4:
+6:
 	g++ main.cpp -o app
-	./app 4
+	./app 6
 
 10:
 	g++ main.cpp -o app
