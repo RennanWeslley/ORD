@@ -34,6 +34,7 @@ class Node {
 class List {
     private:
         Node *head;
+        Node *back;
         int size;
         
     public:
@@ -44,6 +45,10 @@ class List {
         
         Node *getHead() {
             return head;
+        }
+        
+        Node *getBack() {
+            return back;
         }
 
         int getSize() {
@@ -61,6 +66,9 @@ class List {
             node->next = this->head;
             this->head = node;
             
+            if(!size)
+                this->back = node;
+            
             this->size++;
             
             //std::cout << "Inserted: (" << data.v << ", " << data.w << ")" << std::endl;
@@ -68,18 +76,18 @@ class List {
             return 1;
         }
         
+        /* Insert Back */
         int insert(vex_t data) {
             if(this->empty())
                 return insertHead(data);
             
-            Node *p = this->head;
+            Node *p = this->back;
             Node *node = new Node();
-            
-            for(; p->next; p = p->next);
             
             node->data = data;
             node->next = NULL;
             p->next    = node;
+            this->back = node;
             
             this->size++;
             
