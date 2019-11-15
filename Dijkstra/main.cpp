@@ -26,22 +26,9 @@ int main(int argc, char *argv[]) {
     int size;
 
     fgets(s, 1024, f);
-    
-    if(!s) {
-        std::cerr << "Line cannot be read" << std::endl;
-        return 0;
-    }
 
     std::stringstream toInt(s);
     toInt >> size;
-    
-    List list[size];
-    
-    /* Load the adjacency list */
-    load_adjacency_list(list, size, f);
-    
-    fclose(f);
-    /*END OF READING FILE */
     
     int d[size];
     int p[size];
@@ -50,7 +37,10 @@ int main(int argc, char *argv[]) {
     init(d, p, size);
     
     /* Do Dijkstra */
-    dijkstra(list, size, d, p);
+    dijkstra(d, p, size, f);
+    
+    fclose(f);
+    /*END OF READING FILE */
     
     std::cout << path((size-1), d, p) << std::endl << std::endl;
     

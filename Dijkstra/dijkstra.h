@@ -5,48 +5,44 @@
 
 #define INF 0x3f3f3f3f
 
+int readInt(FILE *f);
 void load_adjacency_list(List *, int, FILE *);
 void init(int *, int *, int);
 void relax(int, int, int, int *, int *);
-void dijkstra(List *, int, int *, int *);
+void dijkstra(int *, int *, int, FILE *);
 std::string path(int, int *, int *);
 
-void load_adjacency_list(List *list, int size, FILE *f) {
-    std::stringstream *d;
+int readInt(FILE *f) {
     char c[1024];
+    char aux;
+    bool flag = false;
+    int k = 0;
+    
+    while(1) {
+        aux = getc(f);
+        
+        if(isdigit(aux)) {
+            c[k++] = aux;
+            flag = true;
+        }
+        else if(flag) {
+            c[k] = '\0';
+            break;
+        }
+    }
+        
+    std::stringstream d(c);
+    d >> k;
+    
+    return k;
+}
+
+void load_adjacency_list(List *list, int size, FILE *f) {
     vex_t data;
 
-    for(int i = 0; i < size; i++){
-        for(int j = 0, pos = i+1; pos < size; c[0] = '\0', pos++, j++) {
-            for(int k = 0; ; k++) {
-                c[k] = getc(f);
-                
-                if(c[k] == ' ' || c[k] == '\n') {
-                    k--;
-                    continue;
-                }
-                
-                if(!isdigit(c[k])) {
-                    c[k] = '\0';
-                    break;
-                }
-                
-                if(feof(f)) {
-                    d = new std::stringstream(c);
-                    *d >> data.w;
-                    
-                    data.v = pos;
-                    list[i].insert(data);
-                    
-                    data.v = i;
-                    list[pos].insert(data);
-                    
-                    return;
-                }
-            }
-                
-            d = new std::stringstream(c);
-            *d >> data.w;
+    for(int i = 0; i < size; i++)
+        for(int pos = i+1; pos < size; pos++) {
+            data.w = readInt(f);
 
             data.v = pos;
             list[i].insert(data);
@@ -54,7 +50,6 @@ void load_adjacency_list(List *list, int size, FILE *f) {
             data.v = i;
             list[pos].insert(data);
         }
-    }
 }
 
 void init(int *d, int *p, int size) {
@@ -75,27 +70,29 @@ void relax(int u, int v, int w, int *d, int *p) {
     }
 }
 
-void dijkstra(List *list, int size, int *d, int *p) {
-    vex_t a;
-    vex_t arr[size];
+void dijkstra(int *d, int *p, int size, FILE *f) {
+    /* Load the adjacency list */
+    List list[size];
+    load_adjacency_list(list, size, f);
     
     /* Vertex array <- Pairs(u, weight)*/
+    vex_t arr[size];
+    
     for(int i = 0; i < size; i++) {
         arr[i].v = i;
         arr[i].w = d[i];
     }
     
     Heap h(arr, size);
-    vex_t node;
+    int u;
     
     h.build_min_heap();
     
     while(!h.isEmpty()) {
-        node = h.extract_min();
+        u = h.extract_min().v;
         
-        for(int i = 0; i < size-1; i++)
-            for(Node *n = list[node.v].getHead(); n; n = n->next)
-                relax(node.v, n->getV(), n->getW(), d, p);
+        for(Node *n = list[u].getHead(); n; n = n->next)
+            relax(u, n->getV(), n->getW(), d, p);
     }
 }
 
