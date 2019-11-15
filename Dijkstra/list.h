@@ -1,7 +1,6 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <iostream>
 #include <sstream>
 
 typedef struct {
@@ -67,8 +66,6 @@ class List {
             
             this->size++;
             
-            //std::cout << "Inserted: (" << data.v << ", " << data.w << ")" << std::endl;
-            
             return 1;
         }
         
@@ -86,8 +83,6 @@ class List {
             this->back = node;
             
             this->size++;
-            
-            //std::cout << "Inserted: (" << data.v << ", " << data.w << ")" << std::endl;
             
             return 1;
         }

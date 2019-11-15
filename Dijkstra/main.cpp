@@ -1,6 +1,6 @@
 #include "dijkstra.h"
+#include <iostream>
 #include <string.h>
-#include <ctype.h>
 
 int main(int argc, char *argv[]) {
     std::cout << std::endl;

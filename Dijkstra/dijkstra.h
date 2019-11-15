@@ -2,6 +2,7 @@
 #define DIJKSTRA_H
 
 #include "heap.h"
+#include <ctype.h>
 
 #define INF 0x3f3f3f3f
 
