@@ -8,94 +8,74 @@ typedef struct {
     int w;
 } vex_t;
 
-class Node {
-    public:
-        vex_t data;
-        Node *next;
-        
-        vex_t getData() {
-            return data;
-        }
-        
-        int getV() {
-            return data.v;
-        }
-        
-        int getW() {
-            return data.w;
-        }
-        
-        Node *getNext() {
-            return next;
-        }
-};
+typedef struct node {
+    vex_t data;
+    struct node *next;
+} node_t;
 
 class List {
     private:
-        Node *head;
-        Node *back;
+        node_t *head;
+        node_t *back;
         int size;
         
     public:
         List() {
-            this->head = NULL;
-            this->size = 0;
+            head = NULL;
+            back = NULL;
+            size = 0;
         }
         
-        Node *getHead() {
+        node_t *getHead() {
             return head;
         }
 
         int getSize() {
-            return this->size;
+            return size;
         }
 
         bool empty() {
-            return !this->head;
+            return !head;
         }
         
-        int insertHead(vex_t data) {
-            Node *node = new Node();
+        void insertHead(vex_t data) {
+            node_t *node = (node_t *) malloc(sizeof(node_t));
             
             node->data = data;
-            node->next = this->head;
-            this->head = node;
+            node->next = head;
+            head       = node;
             
             if(!size)
-                this->back = node;
+                back = node;
             
-            this->size++;
-            
-            return 1;
+            size++;
         }
         
         /* Insert Back */
-        int insert(vex_t data) {
-            if(this->empty())
+        void insert(vex_t data) {
+            if(empty())
                 return insertHead(data);
             
-            Node *p = this->back;
-            Node *node = new Node();
+            node_t *p = back;
+            node_t *node = (node_t *) malloc(sizeof(node_t));
             
             node->data = data;
             node->next = NULL;
             p->next    = node;
-            this->back = node;
+            back       = node;
             
-            this->size++;
-            
-            return 1;
+            size++;
         }
         
         std::string toString() {
-            if(this->empty())
+            if(empty())
                 return "Empty\n";
             
             std::stringstream v;
             std::stringstream w;
             std::string show = "List: {";
             
-            Node *p = this->head;
+            node_t *p = head;
             
             for(; p; p = p->next) {
                 v << p->data.v;

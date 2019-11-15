@@ -1,65 +1,61 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "heap.h"
+#include "list.h"
 
 class Stack {
     private:
-        Node *head;
+        node_t *top;
         int size;
         
     public:
         Stack() {
-            this->head = NULL;
-            this->size = 0;
+            top = NULL;
+            size = 0;
         }
 
         int getSize() {
-            return this->size;
+            return size;
         }
 
         bool empty() {
-            return !this->head;
+            return !top;
         }
         
         void push(vex_t data) {
-            Node *node = new Node();
+            node_t *node = (node_t *) malloc(sizeof(node_t));
             
             node->data = data;
-            node->next = this->head;
-            this->head = node;
+            node->next = top;
+            top        = node;
             
-            this->size++;
-            
-            //std::cout << "Inserted: (" << data.v << ", " << data.w << ")" << std::endl;
-            
-            return;
+            size++;
         }
         
         vex_t pop() {
-            Node *p = this->head;
+            node_t *p = top;
             
             vex_t d = p->data;
             
-            this->head = p->next;
+            top = p->next;
             
             p->next = NULL;
-            delete p;
+            free(p);
             
-            this->size--;
+            size--;
             
             return d;
         }
         
         std::string toString() {
-            if(this->empty())
+            if(empty())
                 return "Empty\n";
             
             std::stringstream v;
             std::stringstream w;
             std::string show = "Stack: {";
             
-            Node *p = this->head;
+            node_t *p = top;
             
             for(; p; p = p->next) {
                 v << p->data.v;
