@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <sstream>
+#include <stdlib.h>
 
 typedef struct {
     int v;
