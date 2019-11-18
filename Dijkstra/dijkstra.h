@@ -110,9 +110,7 @@ std::string path(int u, int *d, int *p) {
     
     std::string path = "Path..: ";
     
-    s.push({u, d[u]});
-    
-    for(u = p[u]; u > -1; u = p[u])
+    for(; u > -1; u = p[u])
         s.push({u, d[u]});
     
     while(1) {
