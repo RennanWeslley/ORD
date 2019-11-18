@@ -33,9 +33,6 @@ int main(int argc, char *argv[]) {
     int d[size];
     int p[size];
     
-    /* Init of d and p array */
-    init(d, p, size);
-    
     /* Do Dijkstra */
     dijkstra(d, p, size, f);
     

@@ -72,6 +72,9 @@ void relax(int u, int v, int w, int *d, int *p) {
 }
 
 void dijkstra(int *d, int *p, int size, FILE *f) {
+    /*Initializing d and p*/
+    init(d, p, size);
+    
     /* Load the adjacency list */
     List list[size];
     load_adjacency_list(list, size, f);
@@ -99,7 +102,12 @@ void dijkstra(int *d, int *p, int size, FILE *f) {
 
 std::string path(int u, int *d, int *p) {
     std::stringstream toInt;
-    int w = d[u];
+    
+    std::string weight = "Weight: ";
+    toInt << d[u];
+    weight += toInt.str();
+    
+    toInt.str("");
     std::string path = "Path..: ";
     
     toInt << u;
@@ -115,10 +123,7 @@ std::string path(int u, int *d, int *p) {
         toInt.str("");
     }
     
-    toInt.str("");
-    toInt << w;
-    
-    return path + "\nWeight: " + toInt.str();
+    return path + "\n" + weight;
 }
 
 #endif //DIJKSTRA_H
