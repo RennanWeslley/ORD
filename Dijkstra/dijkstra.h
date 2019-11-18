@@ -2,6 +2,7 @@
 #define DIJKSTRA_H
 
 #include "heap.h"
+#include "stack.h"
 #include <ctype.h>
 
 #define INF 0x3f3f3f3f
@@ -9,7 +10,7 @@
 int readInt(FILE *f);
 void load_adjacency_list(List *, int, FILE *);
 void init(int *, int *, int);
-void relax(int, int, int, int *, int *);
+void relax(int, int, int, Heap *, int *, int *);
 void dijkstra(int *, int *, int, FILE *);
 std::string path(int, int *, int *);
 
@@ -62,12 +63,13 @@ void init(int *d, int *p, int size) {
     d[0] = 0;
 }
 
-void relax(int u, int v, int w, int *d, int *p) {
+void relax(int u, int v, int w, Heap *h, int *d, int *p) {
     w += d[u];
     
     if(d[v] > w) {
         d[v] = w;
         p[v] = u;
+        h->decrease_key(v, w);
     }
 }
 
@@ -96,31 +98,36 @@ void dijkstra(int *d, int *p, int size, FILE *f) {
         u = h.extract_min().v;
         
         for(node_t *n = list[u].getHead(); n; n = n->next)
-            relax(u, n->data.v, n->data.w, d, p);
+            relax(u, n->data.v, n->data.w, &h, d, p);
     }
 }
 
 std::string path(int u, int *d, int *p) {
     std::stringstream toInt;
+    Stack s;
     
     std::string weight = "Weight: ";
     toInt << d[u];
     weight += toInt.str();
     
-    toInt.str("");
     std::string path = "Path..: ";
     
-    toInt << u;
-    path += toInt.str() + " <- ";
+    s.push({u, d[u]});
     
-    toInt.str("");
+    for(u = p[u]; u > -1; u = p[u])
+        s.push({u, d[u]});
     
-    for(u = p[u]; u > -1; u = p[u]) {
-        toInt << u;
-        
-        path += toInt.str() + " <- ";
-        
+    while(1) {
         toInt.str("");
+        
+        toInt << s.pop().v;
+        
+        if(s.empty()) {
+            path += toInt.str();
+            break;
+        }
+        
+        path += toInt.str() + " -> ";
     }
     
     return path + "\n" + weight;
