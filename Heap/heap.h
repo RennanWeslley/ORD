@@ -1,8 +1,8 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#include <iostream>
 #include <sstream>
+#include <iostream>
 
 class Heap {
     private:
@@ -27,8 +27,8 @@ class Heap {
             return 2*i + 1;
         }
         
-        bool isEmpty() {
-            return size == 0;
+        bool empty() {
+            return !size;
         }
         
         int getSize() {
@@ -44,7 +44,7 @@ class Heap {
         }
         
         std::string toString() {
-            if(this->isEmpty())
+            if(empty())
                 return "Heap is empty\n";
             
             std::stringstream d, s;
@@ -79,7 +79,7 @@ void print(int *arr, int size) {
 }
 
 void max_heapify(Heap *h, int i) {
-    if(h->isEmpty())
+    if(h->empty())
         return;
     
     int l = h->getLeft(i),
@@ -126,19 +126,17 @@ void heapSort(int *arr, int size) {
 
 //is max heap
 bool isHeap(int arr[], int i, int size) {
+    if(i > (size/2))
+        return true;
+    
     if(!i)
         i++;
     
     int left = 2*i;
     int right = 2*i + 1;
     
-    if(left >= size || right >= size)
-        return true;
-    
-    if(arr[i-1] < arr[left-1] || arr[i-1] < arr[right-1])
-        return false;
-    
-    if(!isHeap(arr, left, size) || !isHeap(arr, right, size))
+    if((left <= size && (arr[i-1] < arr[left-1] || !isHeap(arr, left, size))) ||
+      (right <= size && (arr[i-1] < arr[right-1] || !isHeap(arr, right, size))))
         return false;
     
     return true;

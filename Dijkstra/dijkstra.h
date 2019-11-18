@@ -89,7 +89,7 @@ void dijkstra(int *d, int *p, int size, FILE *f) {
     
     h.build_min_heap();
     
-    while(!h.isEmpty()) {
+    while(!h.empty()) {
         u = h.extract_min().v;
         
         for(node_t *n = list[u].getHead(); n; n = n->next)
