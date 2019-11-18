@@ -84,10 +84,8 @@ void dijkstra(int *d, int *p, int size, FILE *f) {
     /* Vertex array <- Pairs(u, weight)*/
     vex_t arr[size];
     
-    for(int i = 0; i < size; i++) {
-        arr[i].v = i;
-        arr[i].w = d[i];
-    }
+    for(int i = 0; i < size; i++)
+        arr[i] = {i, d[i]};
     
     Heap h(arr, size);
     int u;
