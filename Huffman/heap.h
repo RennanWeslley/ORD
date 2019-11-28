@@ -1,0 +1,48 @@
+#ifndef HEAP_H
+#define HEAP_H
+
+#include "tree.h"
+#include <vector>
+
+class Heap {
+    private:
+        std::vector<Node> data;
+        int size;
+        int comp;
+
+    public:
+        Heap();
+        Heap(int);
+        Heap(std::vector<Node>, int);
+        
+        char getC(int);
+        int getF(int);
+        int getParent(int);
+        int getLeft(int);
+        int getRight(int);
+        int getSize();
+        std::vector<Node> getData();
+        
+        void setSize(int);
+        void setC(int, char);
+        void setF(int, int);
+        
+        bool empty();
+        
+        void min_heapify(int);
+        void build_min_heap();
+        int sizeDec();
+        int sizeInc();
+        
+        Node heap_minimum();
+        Node extract_min();
+        void decrease_key(int, int);
+        void insert_key(Node);
+        
+        std::string toString();
+};
+
+//is min heap
+bool isHeap(std::vector<Node>, int, int);
+
+#endif //HEAP_H
