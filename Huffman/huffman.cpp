@@ -127,8 +127,6 @@ void Decoder::decode(std::string name) {
     fclose(f);
     
     freeHuffmanTree(r);
-    
-    std::cout << std::endl << "Done." << std::endl << std::endl;
 }
 
 void Decoder::dcode(FILE *f, FILE *newF) {
@@ -165,6 +163,8 @@ void Decoder::dcode(FILE *f, FILE *newF) {
                 auxT = auxT->right;
         }
     }
+    
+    std::cout << std::endl << "Done." << std::endl << std::endl;
 }
 
 void huffmanCoding(Tree root, std::string s, std::string *arr) {    
