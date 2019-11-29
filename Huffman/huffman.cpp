@@ -1,22 +1,5 @@
 #include "huffman.h"
 
-void Huffman::frequencyHeap(FILE *f) {
-    char c;
-    
-    while(!feof(f)) {
-        fread(&c, sizeof(char), 1, f);
-        
-        if((int) c > 0 && (int) c != 10)
-            arr[c]++;
-    }
-    
-    for(int i = 0; i < 256; i++)
-        if(arr[i] > 0)
-            h.insert_key(Node({(char) i, arr[i]}));
-    
-    rewind(f);
-}
-
 void Huffman::huffmanTree() {
     int size = h.getSize();
     Node *t = new Node();
@@ -59,6 +42,23 @@ void Encoder::encode(std::string name) {
     fclose(newF);
     
     freeHuffmanTree(r);
+}
+
+void Encoder::frequencyHeap(FILE *f) {
+    char c;
+    
+    while(!feof(f)) {
+        fread(&c, sizeof(char), 1, f);
+        
+        if((int) c > 0 && (int) c != 10)
+            arr[c]++;
+    }
+    
+    for(int i = 0; i < 256; i++)
+        if(arr[i] > 0)
+            h.insert_key(Node({(char) i, arr[i]}));
+    
+    rewind(f);
 }
 
 void Encoder::code(FILE *f, FILE *newF) {

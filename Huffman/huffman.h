@@ -16,12 +16,12 @@ class Huffman {
         std::string codeArr[256] = {""};
         
     public:
-        void frequencyHeap(FILE *);
         void huffmanTree();
 };
 
 class Encoder : public Huffman {
     public:
+        void frequencyHeap(FILE *);
         void encode(std::string);
         void code(FILE *, FILE *);
 };
