@@ -26,24 +26,6 @@ void Huffman::huffmanTree() {
     this->r = t;
 }
 
-void Encoder::encode(std::string name) {
-    size_t dot = name.find('.');
-    
-    std::string newFname = name.substr(0, dot) + "(Compressed)" + name.substr(dot);
-    
-    FILE *f    = fopen(("files/" + name).c_str(), "rb");       /* ORIGINAL FILE */
-    FILE *newF = fopen(("files/" + newFname).c_str(), "wb"); /* COMPRESSED FILE */
-    
-    frequencyHeap(f);
-    
-    code(f, newF);
-    
-    fclose(f);
-    fclose(newF);
-    
-    freeHuffmanTree(r);
-}
-
 void Encoder::frequencyHeap(FILE *f) {
     char c;
     
@@ -61,7 +43,24 @@ void Encoder::frequencyHeap(FILE *f) {
     rewind(f);
 }
 
+void Encoder::encode(std::string name) {
+    size_t dot = name.find('.');
+    
+    std::string newFname = name.substr(0, dot) + "(Compressed)" + name.substr(dot);
+    
+    FILE *f    = fopen(("files/" + name).c_str(), "rb");       /* ORIGINAL FILE */
+    FILE *newF = fopen(("files/" + newFname).c_str(), "wb"); /* COMPRESSED FILE */
+    
+    code(f, newF);
+    
+    fclose(f);
+    fclose(newF);
+    
+    freeHuffmanTree(r);
+}
+
 void Encoder::code(FILE *f, FILE *newF) {
+    frequencyHeap(f);
     huffmanTree();
     huffmanCoding(r, "", codeArr);
     
@@ -101,6 +100,18 @@ void Encoder::code(FILE *f, FILE *newF) {
     std::cout << std::endl << "Done." << std::endl << std::endl;
 }
 
+int Decoder::makeHeap() {
+    int sum = 0;
+    
+    for(int i = 0; i < 256; i++)
+        if(arr[i]) {
+            h.insert_key(Node({(char) i, arr[i]}));
+            sum += arr[i];
+        }
+    
+    return sum;
+}
+
 void Decoder::decode(std::string name) {
     size_t dot = name.find('.');
     
@@ -110,6 +121,17 @@ void Decoder::decode(std::string name) {
     FILE *f    = fopen(("files/" + fn).c_str(), "rb");
     FILE *newF = fopen(("files/" + newFn).c_str(), "wb");
     
+    dcode(f, newF);
+    
+    fclose(newF);
+    fclose(f);
+    
+    freeHuffmanTree(r);
+    
+    std::cout << std::endl << "Done." << std::endl << std::endl;
+}
+
+void Decoder::dcode(FILE *f, FILE *newF) {
     fread(arr, sizeof(byte_t), 256, f);
     
     int totalF = makeHeap();
@@ -143,25 +165,6 @@ void Decoder::decode(std::string name) {
                 auxT = auxT->right;
         }
     }
-    
-    fclose(newF);
-    fclose(f);
-    
-    freeHuffmanTree(r);
-    
-    std::cout << std::endl << "Done." << std::endl << std::endl;
-}
-
-int Decoder::makeHeap() {
-    int sum = 0;
-    
-    for(int i = 0; i < 256; i++)
-        if(arr[i]) {
-            h.insert_key(Node({(char) i, arr[i]}));
-            sum += arr[i];
-        }
-    
-    return sum;
 }
 
 void huffmanCoding(Tree root, std::string s, std::string *arr) {    

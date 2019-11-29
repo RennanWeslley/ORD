@@ -28,8 +28,9 @@ class Encoder : public Huffman {
 
 class Decoder : public Huffman {
     public:
-        void decode(std::string);
         int makeHeap();
+        void decode(std::string);
+        void dcode(FILE *, FILE *);
 };
 
 void huffmanCoding(Tree, std::string, std::string *);
