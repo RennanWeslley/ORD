@@ -147,6 +147,8 @@ void Decoder::decode(std::string name) {
     fclose(newF);
     fclose(f);
     
+    freeHuffmanTree(r);
+    
     std::cout << std::endl << "Done." << std::endl << std::endl;
 }
 
