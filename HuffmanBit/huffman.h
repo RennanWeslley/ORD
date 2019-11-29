@@ -6,15 +6,34 @@
 #include <stdio.h>
 #include <bitset>
 
-typedef unsigned char byte_t;
+typedef unsigned short byte_t;
 
-void frequencyHeap(FILE *, Heap *, int *);
-Node *huffmanTree(Heap *, int);
+class Huffman {
+    protected:
+        byte_t arr[256] = {0};
+        Heap h;
+        Tree r;
+        std::string codeArr[256] = {""};
+        
+    public:
+        void frequencyHeap(FILE *);
+        void huffmanTree();
+};
+
+class Encoder : public Huffman {
+    public:
+        void encode(std::string);
+        void code(FILE *, FILE *);
+};
+
+class Decoder : public Huffman {
+    public:
+        void decode(std::string);
+        int makeHeap();
+};
+
 void huffmanCoding(Tree, std::string, std::string *);
-bool bitCompare(std::bitset<1>, std::bitset<1>);
-Tree code(Heap *, std::string *, int *, FILE *, FILE *, FILE *);
-void testing(FILE *, FILE *);
-void huffman(FILE *, FILE *, FILE *);
 void freeHuffmanTree(Tree);
+bool bitCompare(std::bitset<1>, std::bitset<1>);
 
 #endif //HUFFMAN_H

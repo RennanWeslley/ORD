@@ -59,6 +59,12 @@ void Heap::setF(int i, int f) {
     data[i].data.f = f;
 }
 
+void Heap::setData(std::vector<Node> data) {
+    this->data = data;
+    size = data.size();
+    comp = size;
+}
+
 void Heap::min_heapify(int i) {
     if(empty())
         return;

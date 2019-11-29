@@ -26,6 +26,7 @@ class Heap {
         void setSize(int);
         void setC(int, char);
         void setF(int, int);
+        void setData(std::vector<Node>);
         
         bool empty();
         

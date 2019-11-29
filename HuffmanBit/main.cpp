@@ -3,16 +3,12 @@
 void test(Heap *);
 
 int main(int argc, char *argv[]) {
-    FILE *f = fopen("files/laptop.txt", "r");              /* ORIGINAL FILE */
-    FILE *newF = fopen("files/laptopCoded.txt", "w+b");     /* COMPRESSED FILE */
-    FILE *test = fopen("files/laptopCodedTest.txt", "w+b"); /* CODING TEST FILE */
-    
     /* HUFFMAN */
-    huffman(f, newF, test);
+    Encoder c;
+    Decoder d;
     
-    fclose(test);
-    fclose(newF);
-    fclose(f);
+    c.encode(std::string(argv[1]));
+    d.decode(std::string(argv[1]));
     
     return 0;
 }
