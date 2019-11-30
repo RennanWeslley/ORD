@@ -15,7 +15,7 @@ class Heap {
         Heap(int);
         Heap(std::vector<Node>, int);
         
-        char getC(int);
+        unsigned char getC(int);
         int getF(int);
         int getParent(int);
         int getLeft(int);
@@ -24,7 +24,7 @@ class Heap {
         std::vector<Node> getData();
         
         void setSize(int);
-        void setC(int, char);
+        void setC(int, unsigned char);
         void setF(int, int);
         void setData(std::vector<Node>);
         
@@ -45,5 +45,7 @@ class Heap {
 
 //is min heap
 bool isHeap(std::vector<Node>, int, int);
+
+bool isEqualH(Heap, Heap);
 
 #endif //HEAP_H

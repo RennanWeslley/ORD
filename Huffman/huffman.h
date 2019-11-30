@@ -12,16 +12,24 @@ class Huffman {
     protected:
         byte_t arr[256] = {0};
         Heap h;
+        Heap hCopy;
         Tree r;
         std::string codeArr[256] = {""};
         
+        void freeHuffmanTree(Tree);
+        
     public:
         void huffmanTree();
+        std::string codeString();
+        void freeTree();
+        
+        Heap getHeap();
+        Tree getTree();
 };
 
 class Encoder : public Huffman {
     public:
-        void frequencyHeap(FILE *);
+        void makeHeap(FILE *);
         void encode(std::string);
         void code(FILE *, FILE *);
 };
@@ -34,7 +42,6 @@ class Decoder : public Huffman {
 };
 
 void huffmanCoding(Tree, std::string, std::string *);
-void freeHuffmanTree(Tree);
 bool bitCompare(std::bitset<1>, std::bitset<1>);
 
 #endif //HUFFMAN_H

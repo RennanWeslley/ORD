@@ -15,7 +15,7 @@ Heap::Heap(std::vector<Node> data, int size) {
     comp = size;
 }
 
-char Heap::getC(int i) {
+unsigned char Heap::getC(int i) {
     return data[i].data.c;
 }
 
@@ -51,7 +51,7 @@ void Heap::setSize(int size) {
     this->size = size;
 }
 
-void Heap::setC(int i, char c) {
+void Heap::setC(int i, unsigned char c) {
     data[i].data.c = c;
 }
 
@@ -71,19 +71,25 @@ void Heap::min_heapify(int i) {
     
     int l = getLeft(i),
         r = getRight(i),
-        u;
-    
-    if(l <= size && data[l-1].data.f < data[i-1].data.f)
-        u = l;
-    else
         u = i;
     
-    if(r <= size && data[r-1].data.f < data[u-1].data.f)
-        u = r;
+    if(l <= size) {
+        if((data[l-1].data.f == data[u-1].data.f) && (data[l-1].data.c < data[u-1].data.c))
+            u = l;
+        else if(data[l-1].data.f < data[u-1].data.f)
+            u = l;
+    }
+    
+    
+    if(r <= size) {
+        if((data[r-1].data.f == data[u-1].data.f) && (data[r-1].data.c < data[u-1].data.c))
+            u = r;
+        else if(data[r-1].data.f < data[u-1].data.f)
+            u = r; 
+    }
     
     if(u != i) {
         std::swap(data[i-1], data[u-1]);
-        
         min_heapify(u);
     }
 }
@@ -111,9 +117,8 @@ Node Heap::extract_min() {
     data[0] = data[size-1];
     
     data.pop_back();
-    
     size--;
-        
+    
     min_heapify(1);
     
     return aux;
@@ -127,8 +132,13 @@ void Heap::decrease_key(int i, int key) {
     
     data[i].data.f = key;
     
-    for(; i && (data[getParent(i)].data.f > data[i].data.f); i = getParent(i))
-        std::swap(data[getParent(i)], data[i]);
+    for(; i; i = getParent(i))
+        if(data[getParent(i)].data.f == data[i].data.f 
+        && data[getParent(i)].data.c > data[i].data.c)
+            std::swap(data[getParent(i)], data[i]);
+                
+        else if(data[getParent(i)].data.f > data[i].data.f)
+            std::swap(data[getParent(i)], data[i]);
 }
 
 void Heap::insert_key(Node key) {
@@ -136,8 +146,13 @@ void Heap::insert_key(Node key) {
     size++;
     comp++;
     
-    for(int i = (size-1); i && (data[getParent(i-1)].data.f > data[i].data.f); i = getParent(i))
-        std::swap(data[getParent(i-1)], data[i]);
+    for(int i = (size-1); i; i = getParent(i))
+        if(data[getParent(i-1)].data.f == data[i].data.f
+        && data[getParent(i-1)].data.c > data[i].data.c)
+            std::swap(data[getParent(i-1)], data[i]);
+                
+        else if(data[getParent(i-1)].data.f > data[i].data.f)
+            std::swap(data[getParent(i-1)], data[i]);
 }
 
 std::string Heap::toString() {
@@ -181,6 +196,17 @@ bool isHeap(std::vector<Node> arr, int i, int size) {
     if((left <= size && (arr[i-1].data.f > arr[left-1].data.f || !isHeap(arr, left, size))) ||
       (right <= size && (arr[i-1].data.f > arr[right-1].data.f || !isHeap(arr, right, size))))
         return false;
+    
+    return true;
+}
+
+bool isEqualH(Heap a, Heap b) {
+    if(a.getSize() != b.getSize())
+        return false;
+    
+    for(int i = 0; i < a.getSize(); i++) 
+        if((a.getData()[i].data.c != b.getData()[i].data.c) || (a.getData()[i].data.f != b.getData()[i].data.f))
+            return false;
     
     return true;
 }

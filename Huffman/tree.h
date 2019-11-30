@@ -5,7 +5,7 @@
 #include <iostream>
 
 typedef struct data {
-    char c;
+    unsigned char c;
     int f;
 } data_t;
 
@@ -19,16 +19,17 @@ class Node {
         Node(data_t);
         
         void setData(data_t);
-        void setC(char);
+        void setC(unsigned char);
         void setF(int);
         void setSumF();
         void setL(Node *);
         void setR(Node *);
         
+        void increaseF();
         bool isLeaf();
         
         data_t getData();
-        char getC();
+        unsigned char getC();
         int getF();
         Node *getL();
         Node *getR();
@@ -39,5 +40,6 @@ typedef Node *Tree;
 /*  PREORDER TRAVERSAL */
 bool empty(Tree);
 void preOrder(Tree);
+bool isEqual(Tree, Tree);
 
 #endif //TREE_H

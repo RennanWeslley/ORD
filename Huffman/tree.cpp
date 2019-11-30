@@ -17,7 +17,7 @@ void Node::setData(data_t data) {
     this->data = data;
 }
 
-void Node::setC(char c) {
+void Node::setC(unsigned char c) {
     data.c = c;
 }
 
@@ -46,6 +46,10 @@ void Node::setR(Node *right) {
     this->right = right;
 }
 
+void Node::increaseF() {
+    data.f++;
+}
+
 bool Node::isLeaf() {
     return !left && !right;
 }
@@ -54,7 +58,7 @@ data_t Node::getData() {
     return data;
 }
 
-char Node::getC() {
+unsigned char Node::getC() {
     return data.c;
 }
 
@@ -78,7 +82,7 @@ void preOrder(Tree root) {
     if(empty(root))
         return;
     
-    char c[5] = {'\0'};
+    unsigned char c[5] = {'\0'};
     c[0] = root->data.c;
     
     if(c[0] == '\0') {
@@ -91,7 +95,7 @@ void preOrder(Tree root) {
     std::cout << "(" << c << ", " << root->data.f << ", " << "["; 
     
     if(root->left) {
-        char cl[5] = {'\0'};
+        unsigned char cl[5] = {'\0'};
         cl[0] = root->left->data.c;
         
         if(cl[0] == '\0') {
@@ -105,7 +109,7 @@ void preOrder(Tree root) {
     }
     
     if(root->right) {
-        char cr[5] = {'\0'};
+        unsigned char cr[5] = {'\0'};
         cr[0] = root->right->data.c;
         
         if(cr[0] == '\0') {
@@ -124,4 +128,20 @@ void preOrder(Tree root) {
     preOrder(root->left);
     
     preOrder(root->right);
+}
+
+bool isEqual(Tree r, Tree t) {
+    if((empty(r) && !(empty(t))) || (!(empty(r)) && empty(t)))
+        return false;
+        
+    if(empty(r) && empty(t))
+        return true;
+    
+    if((r->data.c != t->data.c) || (r->data.f != t->data.f))
+        return false;
+    
+    if(isEqual(r->left, t->left) && isEqual(r->right, t->right))
+        return true;
+    else
+        return false;
 }
