@@ -1,11 +1,10 @@
 #include "coder.h"
 
 void Coder::huffmanTree() {
-    int size = h.getSize();
-    Node *t = new Node();
-    Node *l, *r;
+    Node *t, *l, *r;
     
-    for(int i = 0; i < (size-1); i++) {
+    while(h.getSize() > 1) {
+        t = new Node();
         l = (Node *) malloc(sizeof(Node));
         r = (Node *) malloc(sizeof(Node));
         
@@ -13,12 +12,12 @@ void Coder::huffmanTree() {
             *l = h.extract_min();
             t->setL(l);
         }
+        
         if(!h.empty()) {
             *r = h.extract_min();
             t->setR(r);
         }
         
-        t->setC('\0');
         t->setSumF();
         
         h.insert_key(*t);
@@ -31,7 +30,7 @@ void Coder::huffmanTree() {
 }
 
 void Coder::freeHuffmanTree(Tree root) {
-    if(empty(root))
+    if(root->empty())
         return;
     
     freeHuffmanTree(root->left);

@@ -10,6 +10,10 @@ typedef struct data {
 } data_t;
 
 class Node {
+    private:
+        bool emptyT(Node *);
+        void preOrderT(Node *); /* PREORDER TRAVERSAL */
+        
     public:
         data_t data;
         Node *left;
@@ -25,7 +29,8 @@ class Node {
         void setL(Node *);
         void setR(Node *);
         
-        void increaseF();
+        void preOrder();
+        bool empty();
         bool isLeaf();
         
         data_t getData();
@@ -37,9 +42,6 @@ class Node {
 
 typedef Node *Tree;
 
-/*  PREORDER TRAVERSAL */
-bool empty(Tree);
-void preOrder(Tree);
 bool isEqual(Tree, Tree);
 
 #endif //TREE_H

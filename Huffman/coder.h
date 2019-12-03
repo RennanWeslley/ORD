@@ -6,11 +6,11 @@
 #include <stdio.h>
 #include <bitset>
 
-typedef unsigned short byte_t;
+typedef unsigned short freq_t;
 
 class Coder {
     protected:
-        byte_t arr[256] = {0};
+        freq_t arr[256] = {0};
         Heap h;
         Tree r;
         

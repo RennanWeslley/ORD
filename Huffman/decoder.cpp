@@ -1,7 +1,7 @@
 #include "decoder.h"
 
 void Decoder::frequency(FILE *f) {
-    fread(arr, sizeof(byte_t), 256, f);
+    fread(arr, sizeof(freq_t), 256, f);
 }
 
 void Decoder::makeHeap(FILE *f) {

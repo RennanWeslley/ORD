@@ -43,9 +43,7 @@ class Heap {
         std::string toString();
 };
 
-//is min heap
-bool isHeap(std::vector<Node>, int, int);
-
+bool isHeap(std::vector<Node>, int, int); /* Is min heap */
 bool isEqualH(Heap, Heap);
 
 #endif //HEAP_H

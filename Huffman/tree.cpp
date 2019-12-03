@@ -1,7 +1,7 @@
 #include "tree.h"
 
 Node::Node() {
-    data.c = '/';
+    data.c = '\0';
     data.f = 0;
     left = NULL;
     right = NULL;
@@ -34,8 +34,7 @@ void Node::setSumF() {
     if(right)
         sum += right->data.f;
     
-    if(sum)
-        data.f = sum;
+    data.f = sum;
 }
 
 void Node::setL(Node *left) {
@@ -46,8 +45,12 @@ void Node::setR(Node *right) {
     this->right = right;
 }
 
-void Node::increaseF() {
-    data.f++;
+void Node::preOrder() {
+    preOrderT(this);
+}
+
+bool Node::empty() {
+    emptyT(this);
 }
 
 bool Node::isLeaf() {
@@ -74,12 +77,12 @@ Node* Node::getR() {
     return right;
 }
 
-bool empty(Tree root) {
+bool Node::emptyT(Node *root) {
     return !root;
 }
 
-void preOrder(Tree root) {
-    if(empty(root))
+void Node::preOrderT(Node *root) {
+    if(root->empty())
         return;
     
     unsigned char c[5] = {'\0'};
@@ -125,16 +128,16 @@ void preOrder(Tree root) {
         
     std::cout << "])" << std::endl << std::endl;
     
-    preOrder(root->left);
+    preOrderT(root->left);
     
-    preOrder(root->right);
+    preOrderT(root->right);
 }
 
 bool isEqual(Tree r, Tree t) {
-    if((empty(r) && !(empty(t))) || (!(empty(r)) && empty(t)))
+    if((r->empty() && !(t->empty())) || (!(r->empty()) && t->empty()))
         return false;
         
-    if(empty(r) && empty(t))
+    if(r->empty() && t->empty())
         return true;
     
     if((r->data.c != t->data.c) || (r->data.f != t->data.f))

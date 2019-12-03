@@ -73,20 +73,11 @@ void Heap::min_heapify(int i) {
         r = getRight(i),
         u = i;
     
-    if(l <= size) {
-        if((data[l-1].data.f == data[u-1].data.f) && (data[l-1].data.c < data[u-1].data.c))
+    if(l <= size && data[l-1].data.f < data[u-1].data.f)
             u = l;
-        else if(data[l-1].data.f < data[u-1].data.f)
-            u = l;
-    }
     
-    
-    if(r <= size) {
-        if((data[r-1].data.f == data[u-1].data.f) && (data[r-1].data.c < data[u-1].data.c))
-            u = r;
-        else if(data[r-1].data.f < data[u-1].data.f)
+    if(r <= size && data[r-1].data.f < data[u-1].data.f)
             u = r; 
-    }
     
     if(u != i) {
         std::swap(data[i-1], data[u-1]);
@@ -132,13 +123,8 @@ void Heap::decrease_key(int i, int key) {
     
     data[i].data.f = key;
     
-    for(; i; i = getParent(i))
-        if(data[getParent(i)].data.f == data[i].data.f 
-        && data[getParent(i)].data.c > data[i].data.c)
-            std::swap(data[getParent(i)], data[i]);
-                
-        else if(data[getParent(i)].data.f > data[i].data.f)
-            std::swap(data[getParent(i)], data[i]);
+    for(; i && data[getParent(i)].data.f > data[i].data.f; i = getParent(i))
+        std::swap(data[getParent(i)], data[i]);
 }
 
 void Heap::insert_key(Node key) {
@@ -146,13 +132,8 @@ void Heap::insert_key(Node key) {
     size++;
     comp++;
     
-    for(int i = (size-1); i; i = getParent(i))
-        if(data[getParent(i-1)].data.f == data[i].data.f
-        && data[getParent(i-1)].data.c > data[i].data.c)
-            std::swap(data[getParent(i-1)], data[i]);
-                
-        else if(data[getParent(i-1)].data.f > data[i].data.f)
-            std::swap(data[getParent(i-1)], data[i]);
+    for(int i = (size-1); i && data[getParent(i-1)].data.f > data[i].data.f; i = getParent(i))
+        std::swap(data[getParent(i-1)], data[i]);
 }
 
 std::string Heap::toString() {
@@ -182,7 +163,6 @@ std::string Heap::toString() {
     return show + "\nTam: " + s.str();
 }
 
-//is min heap
 bool isHeap(std::vector<Node> arr, int i, int size) {
     if(i > (size/2))
         return true;

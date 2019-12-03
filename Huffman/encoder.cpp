@@ -35,7 +35,7 @@ void Encoder::doCode(FILE *f, FILE *newF) {
     huffmanTree();
     huffmanTraversal();
     
-    fwrite(arr, sizeof(byte_t), 256, newF);
+    fwrite(arr, sizeof(freq_t), 256, newF);
     
     unsigned char c;
     int j;
@@ -109,7 +109,7 @@ std::string Encoder::codeString() {
 }
 
 void Encoder::huffmanCoding(Tree root, std::string s, std::string *arr) {    
-    if(empty(root))
+    if(root->empty())
         return;
     
     if(root->data.c != '\0')
