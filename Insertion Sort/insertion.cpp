@@ -5,29 +5,29 @@ void printArr(int *, int);
 void insertion_sort(int *, int);
 
 int main(int argc, char *argv[]) {
-	    /* CHAR TO INT */
-	int size = argc - 1;
-	int arr[size];
-	
-	std::stringstream *d;	
+    /* CHAR TO INT */
+    int size = argc - 1;
+    int arr[size];
 
-	for(int i = 1; i < argc; i++) {
-		d = new std::stringstream(argv[i]);
-		*d >> arr[i-1];
-	}
-	/* END OF CHAR TO INT */
-	
-	printArr(arr, size);
+    std::stringstream *d;
 
-	std::cout << "\nApplying Insertion Sort...\n" << std::endl;
+    for(int i = 1; i < argc; i++) {
+        d = new std::stringstream(argv[i]);
+        *d >> arr[i-1];
+    }
+    /* END OF CHAR TO INT */
 
-	insertion_sort(arr, size);
+    printArr(arr, size);
 
-	std::cout << "Done" << std::endl;
+    std::cout << "\nApplying Insertion Sort...\n" << std::endl;
 
-	printArr(arr, size);	
+    insertion_sort(arr, size);
 
-	return 0;
+    std::cout << "Done" << std::endl;
+
+    printArr(arr, size);
+
+    return 0;
 }
 
 void printArr(int *arr, int size) {
@@ -41,16 +41,15 @@ void printArr(int *arr, int size) {
 }
 
 void insertion_sort(int *arr, int size) {
-	for(int i = 1; i < size; i++) {
-		for(int j = i; ;) {
-			if(arr[j] < arr[j-1])
-				std::swap(arr[j], arr[j-1]);
+    for(int i = 1; i < size; i++)
+        for(int j = i; ;) {
+            if(arr[j] < arr[j-1])
+                std::swap(arr[j], arr[j-1]);
 
-			j--;
+            j--;
 
-			if(!j || arr[j] > arr[j-1])
-				break;
-		}
-	}
+            if(!j || arr[j] > arr[j-1])
+                break;
+        }
 }
 
