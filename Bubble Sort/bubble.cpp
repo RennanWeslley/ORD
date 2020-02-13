@@ -48,14 +48,17 @@ void printArr(int *arr, int size) {
 }
 
 void bubble_sort(int *arr, int size) {
-    for(int i = 0; ; i++) {
-        if((i+1) == size)
-            break;
-            
-        if(arr[i] > arr[i+1]) {
-            std::swap(arr[i], arr[i+1]);
-            i = -1;
-        }
+    bool flag;
+    
+    do {
+        flag = false;
+        
+        for(int i = 0; i < size; i++)
+            if(arr[(i%size)] > arr[(i%size)+1]) {
+                std::swap(arr[(i%size)], arr[(i%size)+1]);
+                flag = true;
+            }
     }
+    while(flag);
 }
 
