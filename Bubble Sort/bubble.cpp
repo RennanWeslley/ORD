@@ -52,7 +52,7 @@ void bubble_sort(int *arr, int size) {
         if((i+1) == size)
             break;
             
-        if((i < size) && (arr[i] > arr[i+1])) {
+        if(arr[i] > arr[i+1]) {
             std::swap(arr[i], arr[i+1]);
             i = -1;
         }
