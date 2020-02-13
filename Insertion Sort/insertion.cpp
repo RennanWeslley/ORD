@@ -1,20 +1,16 @@
 #include <iostream>
 #include <sstream>
 
+void ctoi(int *, int, char **);
 void printArr(int *, int);
 void insertion_sort(int *, int);
 
 int main(int argc, char *argv[]) {
     /* CHAR TO INT */
-    int size = argc - 1;
+    int size = --argc;
     int arr[size];
 
-    std::stringstream *d;
-
-    for(int i = 1; i < argc; i++) {
-        d = new std::stringstream(argv[i]);
-        *d >> arr[i-1];
-    }
+    ctoi(arr, size, argv);
     /* END OF CHAR TO INT */
 
     printArr(arr, size);
@@ -28,6 +24,16 @@ int main(int argc, char *argv[]) {
     printArr(arr, size);
 
     return 0;
+}
+
+void ctoi(int *arr, int size, char *argv[]) {
+    std::stringstream *d;
+    size++;
+
+    for(int i = 1; i < size; i++) {
+        d = new std::stringstream(argv[i]);
+        *d >> arr[i-1];
+    }
 }
 
 void printArr(int *arr, int size) {
