@@ -91,7 +91,6 @@ void median(int *arr, int a, int c) {
 }
 
 int part(int *arr, int begin, int end) {
-    int size = end-begin+1;
     int v = begin;
     
     median(arr, begin, end);
