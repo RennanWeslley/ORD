@@ -53,14 +53,14 @@ void counting_sort(int *arr, int size, int n) {
     int c[MAX]    = {0};
     int aux[size] = {0};
     
-    for(int i = 0; i < size; c[arr[i++]%n]++);
+    for(int i = 0; i < size; c[(arr[i]/n)%10]++, i++);
     for(int i = 1; i < MAX; c[i] += c[i-1], i++);
-    for(int i = 0; i < size; aux[c[arr[i]%n]-- -1] = arr[i], i++);
-    
+    for(int i = size-1; i >= 0; aux[c[(arr[i]/n)%10]-- -1] = arr[i], i--);
+     
     std::copy(aux, aux+size, arr);
 }
 
 void radix_sort(int *arr, int size) {
-    for(int i = 1; i <= 100; i *= 10)
-        counting_sort(arr, size, i*10);
+    for(int i = 1; i/100 <= 1 ; i *= 10)
+        counting_sort(arr, size, i);
 }
